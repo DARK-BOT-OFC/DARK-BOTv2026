@@ -1,5 +1,5 @@
 # DARK-BOTv2026
-![image](./menu2.jpg)
+![image](./Menu2.jpg)
 
 `BIENVENIDOS A DARK-BOTv2026 — AUTOMATIZACIÓN Y CONTROL EN WHATSAPP`
 ~~~bash

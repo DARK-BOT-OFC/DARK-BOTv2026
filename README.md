@@ -72,8 +72,6 @@ CODIGOS PARA INSTALAR DEBEN DE SEGUIR LOS CODIGOS UNO POR UNO. NO TODOS A LA VEZ
 
 > npm install
 
-> npm audit fix --force
-
 > node index
 ~~~
 

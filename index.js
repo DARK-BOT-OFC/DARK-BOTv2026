@@ -1,0 +1,78 @@
+// ==========================================
+//          ⚡ DARK-BOTv2026 ⚡
+//          Enterprise Core / Carlos-ofc
+// ==========================================
+
+const startBot = require('./main');
+
+const MAX_COLS = 42;
+
+const RED = '\x1b[31m';
+const BRIGHT_RED = '\x1b[91m';
+const CYAN = '\x1b[36m';
+const YELLOW = '\x1b[33m';
+const GREEN = '\x1b[32m';
+const BOLD = '\x1b[1m';
+const DIM = '\x1b[2m';
+const RESET = '\x1b[0m';
+
+function getCols() {
+  const cols = process.stdout && typeof process.stdout.columns === 'number' && process.stdout.columns > 20
+    ? process.stdout.columns
+    : MAX_COLS;
+  return Math.min(cols, MAX_COLS);
+}
+
+function centerLine(text, width, visibleLen) {
+  const len = typeof visibleLen === 'number' ? visibleLen : text.length;
+  const pad = Math.max(0, Math.floor((width - len) / 2));
+  return `${' '.repeat(pad)}${text}`;
+}
+
+function showBanner() {
+  const termCols = process.stdout && typeof process.stdout.columns === 'number' && process.stdout.columns > 20
+    ? process.stdout.columns
+    : MAX_COLS;
+  const width = Math.min(termCols, MAX_COLS);
+
+  console.clear();
+
+  console.log(`${DIM}⚙️ PID #${process.pid} • Iniciando núcleo...${RESET}`);
+  console.log(`${CYAN}$ [DARK-BOTv2026_CORE]${RESET}\n`);
+
+  const frameTop = '╔══════════════════════════════════════╗';
+  const frameBot = '╚══════════════════════════════════════╝';
+  const artLines = [
+    '║   █▀▄ ▄▀█ █▀█ █▄▀    █▄▄ █▀█ ▀█▀     ║',
+    '║   █▄▀ █▀█ █▀▄ █▀▄    █▄█ █▄█  █      ║'
+  ];
+
+  const logoWidth = frameTop.length; // 40
+  const centerWidth = Math.max(logoWidth, termCols);
+
+  console.log(centerLine(`${RED}${frameTop}${RESET}`, centerWidth, logoWidth));
+  for (const line of artLines) {
+    console.log(centerLine(`${BRIGHT_RED}${BOLD}${line}${RESET}`, centerWidth, line.length));
+  }
+  console.log(centerLine(`${RED}${frameBot}${RESET}`, centerWidth, logoWidth));
+
+  console.log('');
+  console.log(centerLine(`${YELLOW}${BOLD}👑 carlos-ofc${RESET}`, centerWidth, 13));
+
+  const sep = `${CYAN}${'─'.repeat(width)}${RESET}`;
+  console.log(`\n${sep}`);
+  console.log(`🧠 Core System ....... ${GREEN}[OK]${RESET}`);
+  console.log(`📦 Build Version ..... ${CYAN}[v2026 1.0.0]${RESET}`);
+  console.log(`🗄️  Database Sync ..... ${GREEN}[ONLINE]${RESET}`);
+  console.log(`🔐 Session Restore ... ${GREEN}[SUCCESS]${RESET}`);
+  console.log(`📱 WhatsApp Socket ... ${GREEN}[CONNECTED]${RESET}`);
+  console.log(`🚀 Active Services ... ${YELLOW}[ALL]${RESET}`);
+  console.log(`${sep}`);
+  
+}
+
+showBanner();
+
+startBot().catch((err) => {
+  console.error(`\n${BRIGHT_RED}${BOLD}💥 [ERROR CRÍTICO] Fallo en el núcleo:${RESET}`, err);
+});

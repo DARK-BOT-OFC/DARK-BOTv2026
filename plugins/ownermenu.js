@@ -93,6 +93,7 @@ module.exports = {
 • ${privateIcon} \`${prefix}private\` ➔ Cambiar a Privado
 • ⚙️ \`${prefix}modo\` ➔ Estado general
 • 🔄 \`${prefix}restart\` ➔ Reiniciar bot
+• 🔄 PARA ACTUALIZAR MANUALMENTE ESCRIBE \`git pull\` DENTRO DE LA CARPETA DEL BOT EN TERMUX
 
 ⚙️ *Gestión de Grupos y Seguridad:*
 • ${bienvenidaIcon} \`${prefix}enable / disable bienvenida\`

@@ -3,9 +3,11 @@
 //          Enterprise Core / Carlos-ofc
 // ==========================================
 
+const { exec } = require('child_process');
 const startBot = require('./main');
 
 const MAX_COLS = 42;
+const UPDATE_CHECK_INTERVAL_MS = 5 * 60 * 1000;
 
 const RED = '\x1b[31m';
 const BRIGHT_RED = '\x1b[91m';
@@ -68,11 +70,52 @@ function showBanner() {
   console.log(`📱 WhatsApp Socket ... ${GREEN}[CONNECTED]${RESET}`);
   console.log(`🚀 Active Services ... ${YELLOW}[ALL]${RESET}`);
   console.log(`${sep}`);
-  
+}
+
+function runGit(cmd) {
+  return new Promise((resolve, reject) => {
+    exec(cmd, { cwd: process.cwd() }, (err, stdout, stderr) => {
+      if (err) return reject(err);
+      resolve({ stdout: stdout.trim(), stderr: stderr.trim() });
+    });
+  });
+}
+
+let isCheckingUpdate = false;
+
+async function checkForUpdates() {
+  if (isCheckingUpdate) return;
+  isCheckingUpdate = true;
+
+  try {
+    await runGit('git fetch origin main');
+    const { stdout: localHash } = await runGit('git rev-parse HEAD');
+    const { stdout: remoteHash } = await runGit('git rev-parse origin/main');
+
+    if (localHash && remoteHash && localHash !== remoteHash) {
+      console.log(`\n${YELLOW}${BOLD}🔄 [AUTO-UPDATE] Nueva versión detectada en origin/main. Aplicando cambios...${RESET}`);
+      await runGit('git pull origin main');
+      console.log(`${GREEN}${BOLD}✅ [AUTO-UPDATE] Cambios descargados. Reiniciando núcleo...${RESET}`);
+      process.exit(0);
+    }
+  } catch (err) {
+    console.error(`\n${DIM}[AUTO-UPDATE] Sin cambios o error de red: ${err.message}${RESET}`);
+  } finally {
+    isCheckingUpdate = false;
+  }
+}
+
+function startAutoUpdateWatcher() {
+  checkForUpdates();
+  setInterval(checkForUpdates, UPDATE_CHECK_INTERVAL_MS);
 }
 
 showBanner();
 
-startBot().catch((err) => {
-  console.error(`\n${BRIGHT_RED}${BOLD}💥 [ERROR CRÍTICO] Fallo en el núcleo:${RESET}`, err);
-});
+startBot()
+  .then(() => {
+    startAutoUpdateWatcher();
+  })
+  .catch((err) => {
+    console.error(`\n${BRIGHT_RED}${BOLD}💥 [ERROR CRÍTICO] Fallo en el núcleo:${RESET}`, err);
+  });

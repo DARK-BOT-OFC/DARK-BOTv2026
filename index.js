@@ -95,7 +95,7 @@ async function checkForUpdates() {
     if (localHash && remoteHash && localHash !== remoteHash) {
       console.log(`\n${YELLOW}${BOLD}🔄 [AUTO-UPDATE] Nueva versión detectada en origin/main. Aplicando cambios...${RESET}`);
       await runGit('git pull origin main');
-      console.log(`${GREEN}${BOLD}✅ [AUTO-UPDATE] Cambios descargados. Reiniciando núcleo...${RESET}`);
+      console.log(`${GREEN}${BOLD}✅ [AUTO-UPDATE] Cambios descargados. VUELVE A INTRODUCIR node index para iniciar...${RESET}`);
       process.exit(0);
     }
   } catch (err) {

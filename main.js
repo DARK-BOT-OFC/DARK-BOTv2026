@@ -6,6 +6,7 @@ const PhoneNumber = require('awesome-phonenumber');
 const handler = require('./handler');
 const { isOwner } = require('./owners.js');
 const { detectNationAndRegion } = require('./lib/regiones');
+const { setNotifierSocket, notifyOwnerError } = require('./errorNotifier');
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 const question = (text) => new Promise((resolve) => rl.question(text, resolve));
@@ -128,6 +129,8 @@ async function startBot() {
         printQRInTerminal: false
     });
 
+    setNotifierSocket(sock);
+
     if (!sock.authState.creds.registered) {
         console.log('\n[DARK-BOTv2026] Dispositivo no vinculado.');
         let phoneNumber = await question('Introduce tu número de WhatsApp (ej: 58412xxxxxxx): ');
@@ -149,6 +152,7 @@ async function startBot() {
                 console.log('Ingresa este código en WhatsApp > Dispositivos vinculados.');
             } catch (err) {
                 console.error('[DARK-BOTv2026] Error al generar código:', err);
+                await notifyOwnerError('main/requestPairingCode', err);
             }
         }, 3000);
     }
@@ -159,6 +163,7 @@ async function startBot() {
         const { connection, lastDisconnect } = update;
 
         if (connection === 'open') {
+            setNotifierSocket(sock);
             console.log('\n========================================');
             console.log('  🚀 DARK-BOTv2026 CONECTADO Y ACTIVO  ');
             console.log('  OPERATOR: Carlos-ofc                  ');
@@ -243,6 +248,7 @@ async function startBot() {
 
         } catch (error) {
             console.error('[DARK-BOTv2026] Error en el handler de mensajes:', error);
+            await notifyOwnerError('main/messages.upsert', error);
         }
     });
 }

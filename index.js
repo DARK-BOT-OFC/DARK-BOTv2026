@@ -4,7 +4,10 @@
 // ==========================================
 
 const { exec } = require('child_process');
+const { registerProcessErrorHandlers } = require('./errorNotifier');
 const startBot = require('./main');
+
+registerProcessErrorHandlers();
 
 const MAX_COLS = 42;
 const UPDATE_CHECK_INTERVAL_MS = 5 * 60 * 1000;
@@ -95,7 +98,7 @@ async function checkForUpdates() {
     if (localHash && remoteHash && localHash !== remoteHash) {
       console.log(`\n${YELLOW}${BOLD}🔄 [AUTO-UPDATE] Nueva versión detectada en origin/main. Aplicando cambios...${RESET}`);
       await runGit('git pull origin main');
-      console.log(`${GREEN}${BOLD}✅ [AUTO-UPDATE] Cambios descargados. VUELVE A INTRODUCIR node index para iniciar...${RESET}`);
+      console.log(`${GREEN}${BOLD}✅ [AUTO-UPDATE] Cambios descargados. Reiniciando núcleo...${RESET}`);
       process.exit(0);
     }
   } catch (err) {
@@ -119,3 +122,4 @@ startBot()
   .catch((err) => {
     console.error(`\n${BRIGHT_RED}${BOLD}💥 [ERROR CRÍTICO] Fallo en el núcleo:${RESET}`, err);
   });
+  

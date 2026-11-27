@@ -14,19 +14,19 @@ module.exports = {
         let soyYo = isOwner(userJid, sock);
 
         let ownerText = `
-*╭━━❍𝕯𐊅ℜ𝖐-𝕭𝖔𝖙⍉ꤲ-[🄼🄳]❍━━╮*
+*╭━━❍ 𝕯𐊅ℜ𝖐-𝕭𝖔𝖙⍉ꤲ ❍━━╮*
 *┃ ╭━━━━━━━━━━━━━━━━╮*
 *┃ ┃ ╭┈────────────╮*
 *┃ ┃ │❍   𝐂𝐑𝐄𝐀𝐃𝐎𝐑   ❍*
 *┃ ┃ ╰┈────────────╯*
 *┃ ┃ ╰━━━━━━━━━━━━━━━━╯*
-*┣━━━▢ 👑 𝐃𝐀𝐑𝐊-𝐁𝐎𝐓𝐯2026 👑*•
+*┣▢ 👑 𝐃𝐀𝐑𝐊-𝐁𝐎𝐓𝐯2026 👑*•
 *┃╭━━━━━━━━━━━━━━━━╾•*
 *┃┃ ⋄ 👤 Nombre: Carlos-ofc*
 *┃┃ ⋄ 📱 Número Principal: +58 412-3261234*
-*┃┃ ⋄ 💻 ROL: ${soyYo ? '👑 Creador / Owner (Acceso Total)' : 'Desarrollador'}*
+*┃┃ ROL: ${soyYo ? '👑 Creador (Acceso Total)' : 'Desarrollador'}*
 *┃╰━━━━━━━━━━━━━━━━╾•*
-*╰━━━╼𝕯𐊅ℜ𝖐-𝕭𝖔𝖙⍉ꤲ-[🄼🄳]╾━━━╯*
+*╰━━━╼ 𝕯𐊅ℜ𝖐-𝕭𝖔𝖙⍉ꤲ ╾━━━╯*
 
 > _Este es el contacto oficial del creador principal de DARK-BOTv2026._
 `.trim();
